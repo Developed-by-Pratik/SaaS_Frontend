@@ -36,7 +36,7 @@ const AuthPage = () => {
         ? { email: formData.email, password: formData.password }
         : { name: formData.name, email: formData.email, password: formData.password }
 
-      const response = await fetch(`http://localhost:8088${endpoint}`, {
+      const response = await fetch(`http://localhost:8080${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,14 +70,14 @@ const AuthPage = () => {
 
   const handleGoogleAuth = () => {
     // Redirect to Google OAuth endpoint
-    window.location.href = "http://localhost:8088/oauth2/authorization/google"
+    window.location.href = "http://localhost:8080/oauth2/authorization/google"
   }
 
   const handleForgotPassword = () => {
     const email = prompt("Enter your email address:")
     if (email) {
       // Send forgot password request
-      fetch("http://localhost:8088/api/auth/forgot-password", {
+      fetch("http://localhost:8080/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
