@@ -1,11 +1,14 @@
 import AuthPage from "./components/AuthPage.jsx"
+import { ToastProvider } from "./components/ToastProvider.jsx"
 import "./App.css"
 
 function App() {
   return (
-    <div className="App">
-      <AuthPage />
-    </div>
+    <ToastProvider>
+      <div className="App">
+        <AuthPage />
+      </div>
+    </ToastProvider>
   )
 }
 
