@@ -1,12 +1,88 @@
-# React + Vite
+# SaaS Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React + Vite frontend for SaaS authentication, featuring login, signup, password reset, and Google OAuth integration.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19 + Vite for fast development and HMR
+- Authentication UI (login, signup, password reset)
+- Google OAuth integration
+- Responsive, glassmorphic design
+- ESLint for code quality
+- Proxy setup for backend API requests
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- npm or yarn
+
+### Installation
+
+```sh
+npm install
+```
+
+### Development
+
+Start the development server:
+
+```sh
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Build
+
+```sh
+npm run build
+```
+
+### Preview Production Build
+
+```sh
+npm run preview
+```
+
+## API Proxy
+
+API requests to `/api/*` are proxied to `http://localhost:8080` (see [`vite.config.js`](vite.config.js)).  
+Update the target URL if your backend runs elsewhere.
+
+## Project Structure
+
+```
+src/
+  components/
+    AuthPage.jsx      # Main authentication component
+    AuthPage.css      # Styles for AuthPage
+  App.jsx             # Root component
+  App.css             # App-level styles
+  main.jsx            # Entry point
+  index.css           # Global styles
+public/
+  index.html          # HTML template
+```
+
+## Linting
+
+Run ESLint:
+
+```sh
+npm run lint
+```
+
+## Customization
+
+- Update API endpoints in [`AuthPage.jsx`](src/components/AuthPage.jsx) as needed.
+- Modify styles in [`AuthPage.css`](src/components/AuthPage.css) for branding.
+
+## License
+
+MIT
+
+---
+
+*Built with [React](https://react.dev/) and [Vite](https://vitejs.dev/)*
