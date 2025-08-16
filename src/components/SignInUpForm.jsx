@@ -70,7 +70,7 @@ const SignInUpForm = () => {
   };
 
   const handleGoogleAuth = () => {
-    showToast("Google authentication is not implemented yet.", "info");
+    window.open("http://localhost:8080/oauth2/authorization/google", "_self");
   };
 
   return (
