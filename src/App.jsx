@@ -1,6 +1,3 @@
-
-
-
 import AuthPage from "./components/AuthPage.jsx";
 import Home from "./pages/Home.jsx";
 import { ToastProvider } from "./components/ToastProvider.jsx";

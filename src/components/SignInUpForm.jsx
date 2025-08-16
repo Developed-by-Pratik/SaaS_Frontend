@@ -1,7 +1,4 @@
 import React from "react";
-// ...existing code will be moved here from AuthPage.jsx
-
-
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { useToast } from "./ToastProvider";
