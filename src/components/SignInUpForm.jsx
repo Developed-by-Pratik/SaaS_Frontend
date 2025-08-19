@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { useToast } from "./ToastProvider";
 import { useNavigate } from "react-router-dom";
+import { auth, googleProvider } from "../../firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { signInWithGooglePopup } from "../../firebase";
 import "./AuthPage.css";
 
 const SignInUpForm = () => {
@@ -69,9 +72,42 @@ const SignInUpForm = () => {
     }
   };
 
-  const handleGoogleAuth = () => {
-    window.open("http://localhost:8080/oauth2/authorization/google", "_self");
-  };
+const handleGoogleAuth = async () => {
+    setLoading(true);
+    try {
+        const result = await signInWithGooglePopup(auth, googleProvider);
+        const user = result.user;
+        const userData = {
+            name: user.displayName,
+            email: user.email,
+            password: null,
+        };
+
+        const response = await fetch("http://localhost:8080/api/auth/google", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            showToast("Signed in successfully!", "success");
+            navigate("/home");
+            resetForm();
+        } else {
+            const errorData = await response.json();
+            showToast(errorData.message || "Failed to sync user with backend.");
+        }
+    } catch (error) {
+        console.error("Google sign-in error:", error);
+        showToast(`Error: ${error.message}`, "error");
+    } finally {
+        setLoading(false);
+    }
+};
 
   return (
     <>
