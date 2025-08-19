@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { verifyPasswordResetCode } from "firebase/auth";
+import { auth } from "../../firebase";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { useToast } from "./ToastProvider";
@@ -18,7 +20,7 @@ const SetNewPasswordForm = () => {
   // Get token from either path param or query string
   const queryToken = React.useMemo(() => {
     const params = new URLSearchParams(location.search);
-    return params.get("token");
+    return params.get("oobCode");
   }, [location.search]);
   const token = paramToken || queryToken;
 
@@ -38,21 +40,27 @@ const SetNewPasswordForm = () => {
     }
     setLoading(true);
     try {
-      const params = new URLSearchParams();
-      params.append("token", token);
-      params.append("newPassword", formData.password);
-      const response = await fetch(`http://localhost:8080/api/auth/reset-password`, {
+
+      const email = await verifyPasswordResetCode(auth, token);
+
+      const response = await fetch(`http://localhost:8080/api/auth/update-password`, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params.toString(),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          newPassword: formData.password,
+        }),
       });
+      
       const text = await response.text();
+      
       if (response.ok) {
         showToast("Password reset successful! Please log in.", "success");
         navigate("/auth");
       } else {
         showToast(text || "Reset failed", "error");
       }
+
     } catch (error) {
       console.error("Reset error:", error);
       showToast("Network error. Please try again.", "error");

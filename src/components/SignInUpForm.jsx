@@ -4,7 +4,6 @@ import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { useToast } from "./ToastProvider";
 import { useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../../firebase";
-import { sendPasswordResetEmail } from "firebase/auth";
 import { signInWithGooglePopup } from "../../firebase";
 import "./AuthPage.css";
 

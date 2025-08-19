@@ -1,8 +1,8 @@
-import React from "react";
-
 import { useState } from "react";
 import { Mail } from "lucide-react";
 import { useToast } from "./ToastProvider";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../../firebase";
 import "./AuthPage.css";
 
 const ResetPasswordForm = () => {
@@ -18,18 +18,9 @@ const ResetPasswordForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        showToast("Password reset email sent! Check your inbox.", "success");
-        setFormData({ email: "" });
-      } else {
-        showToast(data.message || "Error sending reset email", "error");
-      }
+      const email = formData.email;
+      await sendPasswordResetEmail(auth, email);
+      showToast("Password reset email sent!", "success");
     } catch (error) {
       console.error("Forgot password error:", error);
       showToast("Network error. Please try again.", "error");
