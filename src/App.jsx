@@ -1,6 +1,7 @@
 import AuthPage from "./components/AuthPage.jsx";
 import Home from "./pages/Home.jsx";
 import SetNewPasswordForm from "./components/SetNewPasswordForm.jsx";
+import { useSearchParams } from "react-router-dom";
 import { ToastProvider } from "./components/ToastProvider.jsx";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import React from "react";
@@ -9,9 +10,9 @@ import "./App.css";
 function ResetPasswordRoute() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const token = params.get("token");
-  if (token) {
-    return <SetNewPasswordForm />;
+  const oobCode = params.get("oobCode"); // Firebase param
+  if (oobCode) {
+    return <SetNewPasswordForm token={oobCode} />;
   }
   return <AuthPage type="reset" />;
 }
