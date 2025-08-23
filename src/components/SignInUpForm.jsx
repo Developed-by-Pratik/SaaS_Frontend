@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { useToast } from "./ToastProvider";
@@ -8,11 +7,14 @@ import { signInWithGooglePopup } from "../../firebase";
 import "./AuthPage.css";
 
 const SignInUpForm = () => {
+
   const { showToast } = useToast();
   const navigate = useNavigate();
+
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -53,6 +55,7 @@ const SignInUpForm = () => {
       if (response.ok) {
         if (isLogin) {
           localStorage.setItem("token", data.token);
+          window.dispatchEvent(new Event('storage'));
           showToast("Login successful!", "success");
           navigate("/home");
         } else {
@@ -71,42 +74,42 @@ const SignInUpForm = () => {
     }
   };
 
-const handleGoogleAuth = async () => {
+  const handleGoogleAuth = async () => {
     setLoading(true);
     try {
-        const result = await signInWithGooglePopup(auth, googleProvider);
-        const user = result.user;
-        const userData = {
-            name: user.displayName,
-            email: user.email,
-            password: null,
-        };
+      const result = await signInWithGooglePopup(auth, googleProvider);
+      const user = result.user;
+      const userData = {
+        name: user.displayName,
+        email: user.email,
+        password: null,
+      };
 
-        const response = await fetch("http://localhost:8080/api/auth/google", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
-        });
+      const response = await fetch("http://localhost:8080/api/auth/google", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
 
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            showToast("Signed in successfully!", "success");
-            navigate("/home");
-            resetForm();
-        } else {
-            const errorData = await response.json();
-            showToast(errorData.message || "Failed to sync user with backend.");
-        }
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        showToast("Signed in successfully!", "success");
+        navigate("/home");
+        resetForm();
+      } else {
+        const errorData = await response.json();
+        showToast(errorData.message || "Failed to sync user with backend.");
+      }
     } catch (error) {
-        console.error("Google sign-in error:", error);
-        showToast(`Error: ${error.message}`, "error");
+      console.error("Google sign-in error:", error);
+      showToast(`Error: ${error.message}`, "error");
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
   return (
     <>

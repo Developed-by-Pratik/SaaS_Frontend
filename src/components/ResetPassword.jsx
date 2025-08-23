@@ -5,7 +5,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
 import "./AuthPage.css";
 
-const ResetPasswordForm = () => {
+const ResetPassword = () => {
   const { showToast } = useToast();
   const [formData, setFormData] = useState({ email: "" });
   const [loading, setLoading] = useState(false);
@@ -52,4 +52,4 @@ const ResetPasswordForm = () => {
   );
 };
 
-export default ResetPasswordForm;
+export default ResetPassword;

@@ -7,7 +7,7 @@ import { Lock } from "lucide-react";
 import { useToast } from "./ToastProvider";
 import "./AuthPage.css";
 
-const SetNewPasswordForm = () => {
+const NewPassword = () => {
   const { token: paramToken } = useParams();
   const location = useLocation();
   const { showToast } = useToast();
@@ -130,4 +130,4 @@ const SetNewPasswordForm = () => {
   );
 };
 
-export default SetNewPasswordForm;
+export default NewPassword;
